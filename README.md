@@ -1,8 +1,21 @@
 # CppND-System-Monitor
 
-Code for System Monitor Project in the Object Oriented Programming Course of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
+Fork and custom solution for System Monitor Project in the Object Oriented Programming Course of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
 
 ![System Monitor](images/monitor.png)
+
+## Cloning
+
+When cloning this project, be sure to use the `--recurse-submodules` flag. Using HTTPS:
+```
+git clone https://github.com/Frechete/CppND-System-Monitor.git --recurse-submodules
+```
+or with SSH:
+```
+git clone git@github.com:Frechete/CppND-System-Monitor.git --recurse-submodules
+```
+
+If you already cloned the project and forgot `--recurse-submodules`, you can combine the `git submodule init` and `git submodule update` steps by running `git submodule update --init`. To also initialize, fetch and checkout any nested submodules, you can use `git submodule update --init --recursive`.
 
 ## ncurses
 [ncurses](https://www.gnu.org/software/ncurses/) is a library that facilitates text-based graphical output in the terminal. This project relies on ncurses for display output.
@@ -17,7 +30,7 @@ This project uses [Make](https://www.gnu.org/software/make/). The Makefile has f
 
 ## Instructions
 
-1. Clone the project repository: `git clone https://github.com/Frechete/CppND-System-Monitor.git`
+1. Clone the project repository: `git clone https://github.com/Frechete/CppND-System-Monitor.git --recurse-submodules`
 
 2. Build the project: `make build`
 
