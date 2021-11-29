@@ -10,7 +10,6 @@ using std::string;
 // OUTPUT: HH:MM:SS
 string Format::ElapsedTime(long seconds) {
   std::stringstream ss;
-  // convert to milliseconds
 
   long h = seconds / (60 * 60);
   seconds -= h * (60 * 60);
