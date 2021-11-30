@@ -111,6 +111,8 @@ long LinuxParser::Jiffies() {
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
+    string dummy;
+    linestream >> dummy;
     while (linestream >> value)
         jiffies += value;
   }
