@@ -82,8 +82,8 @@ float LinuxParser::MemoryUtilization() {
     std::istringstream linestream(line);
     linestream >> memTotal >> memTotalValue;
     std::getline(stream, line);
-    linestream(line);
-    linestream >> memFree >> memFreeValue;
+    std::istringstream linestream_free(line);
+    linestream_free >> memFree >> memFreeValue;
     memoryUtilization = (memTotalValue - memFreeValue) / memTotalValue;
   }
   return memoryUtilization;
@@ -113,8 +113,7 @@ long LinuxParser::Jiffies() {
     std::istringstream linestream(line);
     string dummy;
     linestream >> dummy;
-    while (linestream >> value)
-        jiffies += value;
+    while (linestream >> value) jiffies += value;
   }
   return jiffies;
 }
