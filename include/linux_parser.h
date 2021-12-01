@@ -45,7 +45,10 @@ long Jiffies();
 long ActiveJiffies();
 long ActiveJiffies(int pid);
 long IdleJiffies();
-
+void UpdateJiffies();
+static long jiffies_ = 0;
+static long jiffies_active_ = 0;
+static long jiffies_idle_ = 0;
 // Processes
 std::string Command(int pid);
 std::string Ram(int pid);
