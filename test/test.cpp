@@ -3,6 +3,7 @@
 #include "../include/format.h"
 #include <string>
 
+using ::testing::HasSubstr;
 TEST(FormatTest, test1) {
     //arrange
     //act
@@ -17,5 +18,5 @@ TEST(SystemTest, test1) {
     //assert
     System test;
     
-    EXPECT_EQ (test.OperatingSystem(),  "Ubuntu");
+    EXPECT_THAT(test.OperatingSystem(), (HasSubstr("Ubuntu")));
 }
