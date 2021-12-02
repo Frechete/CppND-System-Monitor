@@ -121,7 +121,6 @@ std::pair<long, long>  LinuxParser::UpdateJiffies() {
       jiffies += value;
     }
   }
-  LinuxParser::jiffies_ = jiffies;
   return std::make_pair(jiffies, jiffies - jiffies_idle);
 }
 
