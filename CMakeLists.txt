@@ -23,7 +23,7 @@ set_property(TARGET monitor PROPERTY CXX_STANDARD 17)
 target_link_libraries(monitor ${CURSES_LIBRARIES})
 
 # Add the testing executable
-add_executable(test test/test.cpp  ${SOURCES})
+add_executable(test test/test.cpp format.cpp linux_parser.cpp system.cpp)
 
 target_link_libraries(test 
     gtest_main
