@@ -2,6 +2,7 @@
 #include "../include/system.h"
 #include "../include/format.h"
 #include <string>
+#include "gtest/gmock-matchers.h"
 
 using ::testing::HasSubstr;
 TEST(FormatTest, test1) {
