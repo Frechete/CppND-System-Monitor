@@ -2,7 +2,6 @@
 #include "../include/system.h"
 #include "../include/format.h"
 #include <string>
-#include "gtest/gmock.h"
 
 using ::testing::HasSubstr;
 TEST(FormatTest, test1) {
@@ -19,5 +18,5 @@ TEST(SystemTest, test1) {
     //assert
     System test;
     
-    EXPECT_THAT(test.OperatingSystem(), (HasSubstr("Ubuntu")));
+    EXPECT_EQ(test.OperatingSystem(), (HasSubstr("Ubuntu")));
 }
