@@ -17,5 +17,5 @@ TEST(SystemTest, test1) {
     //assert
     System test;
     
-    EXPECT_EQ(test.OperatingSystem().substr(0, 5), ("Ubuntu"));
+    EXPECT_EQ(test.OperatingSystem().substr(0, 6), ("Ubuntu"));
 }
