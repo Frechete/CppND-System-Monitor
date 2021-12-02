@@ -3,8 +3,6 @@
 
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization() {
-    static long jiffies = 0;
-    static long jiffies_active = 0;
     std::pair<long, long> result = LinuxParser::UpdateJiffies();
     const float active_time_delta = result.second - jiffies_active;
     jiffies_active = result.second;
