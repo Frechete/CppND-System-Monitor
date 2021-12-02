@@ -103,9 +103,10 @@ long LinuxParser::UpTime() {
 }
 
 // Update jiffies for the system
-void LinuxParser::UpdateJiffies() {
+std::pair<long, long>  LinuxParser::UpdateJiffies() {
   string line;
   long jiffies = 0;
+  long jiffies_idle = 0;
   long value = 0;
   short it = 0;
   std::ifstream stream(kProcDirectory + kStatFilename);
@@ -116,12 +117,12 @@ void LinuxParser::UpdateJiffies() {
     linestream >> dummy;
     while (linestream >> value) {
       it++;
-      if (it == 4) LinuxParser::jiffies_idle_ = value;
+      if (it == 4) jiffies_idle = value;
       jiffies += value;
     }
   }
   LinuxParser::jiffies_ = jiffies;
-  LinuxParser::jiffies_active_ = jiffies - LinuxParser::jiffies_idle_;
+  return std::make_pair(jiffies, jiffies - jiffies_idle);
 }
 
 // number of jiffies for the system
