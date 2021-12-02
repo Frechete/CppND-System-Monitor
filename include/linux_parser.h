@@ -45,7 +45,7 @@ long Jiffies();
 long ActiveJiffies();
 long ActiveJiffies(int pid);
 long IdleJiffies();
-void UpdateJiffies();
+std::pair<long, long> UpdateJiffies();
 static long jiffies_ = 0;
 static long jiffies_active_ = 0;
 static long jiffies_idle_ = 0;
