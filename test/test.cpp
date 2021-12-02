@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+#include <gmock/gmock.h>
 #include "../include/system.h"
 #include "../include/format.h"
 #include <string>
