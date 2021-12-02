@@ -3,11 +3,19 @@
 #include "../include/format.h"
 #include <string>
 
-TEST(blaTest, test1) {
+TEST(FormatTest, test1) {
+    //arrange
+    //act
+    //assert
+    
+    EXPECT_EQ (Format::ElapsedTime(0.0),  "00:00:00");
+}
+
+TEST(SystemTest, test1) {
     //arrange
     //act
     //assert
     System test;
     
-    EXPECT_EQ (Format::ElapsedTime(0.0),  "00:00:00");
+    EXPECT_EQ (test.OperatingSystem(),  "Ubuntu");
 }
