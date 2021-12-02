@@ -3,10 +3,12 @@
 
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization() {
-    long jiffies = LinuxParser::Jiffies();
-    long jiffies_idle = LinuxParser::IdleJiffies();
-    LinuxParser::UpdateJiffies();
-    const float idle_time_delta = LinuxParser::IdleJiffies() - jiffies_idle;
-    const float total_time_delta = LinuxParser::Jiffies() - jiffies;
-    return (100.0 * (1.0 - idle_time_delta / total_time_delta));
+    static long jiffies = 0;
+    static long jiffies_active = 0;
+    std::pair<long, long> result = LinuxParser::UpdateJiffies();
+    const float active_time_delta = result.second - jiffies_active;
+    jiffies_active = result.second;
+    const float total_time_delta = result.first - jiffies;
+    jiffies = result.first;
+    return (100.0 * (active_time_delta / total_time_delta));
 }
