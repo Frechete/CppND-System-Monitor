@@ -2,7 +2,7 @@
 #include "../include/system.h"
 #include "../include/format.h"
 #include <string>
-#include "gmock/gmock.h"
+#include "gtest/gmock.h"
 
 using ::testing::HasSubstr;
 TEST(FormatTest, test1) {
