@@ -4,6 +4,8 @@ project(monitor)
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIRS})
 
+add_compile_definitions(_GLIBCXX_USE_CXX11_ABI=0)
+
 include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 
