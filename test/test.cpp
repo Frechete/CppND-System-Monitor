@@ -27,6 +27,9 @@ TEST(ProcessorTest, test1) {
     //act
     //assert
     Processor test;
+    for (int i = 0; i < 5; i++) {
+        sleep(1);
+        EXPECT_TRUE(test.Utilization() < 100);
+    }
     
-    EXPECT_TRUE(test.Utilization() < 100);
 }
