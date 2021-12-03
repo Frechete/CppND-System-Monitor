@@ -8,5 +8,5 @@ float Processor::Utilization() {
     jiffies_active = result.second;
     const float total_time_delta = result.first - jiffies;
     jiffies = result.first;
-    return (100.0 * (active_time_delta / total_time_delta));
+    return (100.0 * ((active_time_delta * 1.0) / (total_time_delta * 1.0)));
 }
