@@ -1,5 +1,6 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
+#include <atomic>
 
 class Processor {
  public:
@@ -7,8 +8,8 @@ class Processor {
 
   // TODO: Declare any necessary private members
  private:
-    long jiffies{0};
-    long jiffies_active{0};
+  std::atomic<long> jiffies{0};
+  std::atomic<long> jiffies_active{0};
 };
 
 #endif

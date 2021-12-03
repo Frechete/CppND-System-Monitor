@@ -103,7 +103,7 @@ long LinuxParser::UpTime() {
 }
 
 // Update jiffies for the system
-std::pair<long, long>  LinuxParser::UpdateJiffies() {
+std::pair<long, long> LinuxParser::UpdateJiffies() {
   string line;
   long jiffies = 0;
   long jiffies_idle = 0;
@@ -132,14 +132,13 @@ long LinuxParser::ActiveJiffies(int pid [[maybe_unused]]) { return 0; }
 vector<string> LinuxParser::CpuUtilization() { return {}; }
 
 // TODO: Read and return the total number of processes
-int LinuxParser::TotalProcesses() { 
+int LinuxParser::TotalProcesses() {
   string line;
   string key;
   int value;
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
-
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == "processes") {
@@ -159,7 +158,6 @@ int LinuxParser::RunningProcesses() {
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
-
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == "procs_running") {
