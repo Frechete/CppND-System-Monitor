@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "linux_parser.h"
 #include "process.h"
 #include "processor.h"
 
@@ -25,7 +26,14 @@ format. cpp for formatting the uptime.*/
 Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
-vector<Process>& System::Processes() { return processes_; }
+vector<Process>& System::Processes() {
+  vector<int> pids = LinuxParser::Pids();
+  processes_.clear();
+  for (int icpid : pids)
+    processes_.emplace_back(Process(icpid, cpu_.DeltaJiffies()));
+  // std::sort(processes_.begin(), processes_.end());
+  return processes_;
+}
 
 // TODO: Return the system's kernel identifier (string)
 std::string System::Kernel() { return LinuxParser::Kernel(); }
@@ -40,7 +48,7 @@ std::string System::OperatingSystem() { return LinuxParser::OperatingSystem(); }
 int System::RunningProcesses() { return LinuxParser::RunningProcesses(); }
 
 // TODO: Return the total number of processes on the system
-int System::TotalProcesses() { return LinuxParser::TotalProcesses(); }
+int System::TotalProcesses() { return processes_.size(); }
 
 // Number of seconds since the system started running
 long int System::UpTime() { return LinuxParser::UpTime(); }

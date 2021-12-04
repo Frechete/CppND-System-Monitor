@@ -116,17 +116,30 @@ std::pair<long, long> LinuxParser::UpdateJiffies() {
     string dummy;
     linestream >> dummy;
     while (linestream >> value) {
-      it++;
-      if (it == 4) jiffies_idle = value;
+      if (it == kIdle_) jiffies_idle = value;
       jiffies += value;
+      it++;
     }
   }
   return std::make_pair(jiffies, jiffies - jiffies_idle);
 }
 
-// TODO: Read and return the number of active jiffies for a PID
-// REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid [[maybe_unused]]) { return 0; }
+// Read and return the number of active jiffies for a PID
+long LinuxParser::ActiveJiffies(int pid) {
+  string line;
+  long utime = 0;
+  long stime = 0;
+  std::ifstream stream(kProcDirectory + std::to_string(pid) + kStatFilename);
+  if (stream.is_open()) {
+    std::getline(stream, line);
+    std::istringstream linestream(line);
+    string dummy;
+    for (int i = 0; i < 14; i++) linestream >> dummy;
+    linestream >> utime;
+    linestream >> stime;
+  }
+  return utime + stime;
+}
 
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() { return {}; }
@@ -182,7 +195,7 @@ string LinuxParser::Command(int pid) {
 // Read and return the memory used by a process
 string LinuxParser::Ram(int pid) {
   string line;
-  string ram;
+  long ram = 0;
   string key;
   std::ifstream stream(kProcDirectory + std::to_string(pid) + kStatusFilename);
   if (stream.is_open()) {
@@ -190,12 +203,13 @@ string LinuxParser::Ram(int pid) {
       std::istringstream linestream(line);
       linestream >> key >> ram;
       if (key == "VmSize:") {
+        ram /= 1024;
         break;
       }
     }
   }
 
-  return ram;
+  return std::to_string(ram);
 }
 
 // Read and return the user ID associated with a process

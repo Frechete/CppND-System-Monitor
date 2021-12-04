@@ -7,7 +7,7 @@ float Processor::Utilization() {
   std::pair<long, long> result = LinuxParser::UpdateJiffies();
   const float active_time_delta = result.second - jiffies_active;
   jiffies_active = result.second;
-  const float total_time_delta = result.first - jiffies;
+  delta_jiffies = result.first - jiffies;
   jiffies = result.first;
-  return ((active_time_delta * 1.0) / (total_time_delta * 1.0));
+  return ((active_time_delta * 1.0) / (delta_jiffies * 1.0));
 }
