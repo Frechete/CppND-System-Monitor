@@ -207,7 +207,8 @@ string LinuxParser::Ram(int pid) {
     while (std::getline(stream, line)) {
       std::istringstream linestream(line);
       linestream >> key >> ram;
-      if (key == "VmSize:") {
+      // This seems what is actually in RAM
+      if (key == "VmRSS:") {
         ram /= 1024;
         break;
       }
