@@ -23,10 +23,10 @@ system."
 You need to properly format the uptime. Refer to the comments mentioned in
 format. cpp for formatting the uptime.*/
 
-// TODO: Return the system's CPU
+// Return the system's CPU
 Processor& System::Cpu() { return cpu_; }
 
-// TODO: Return a container composed of the system's processes
+// Return a container composed of the system's processes
 vector<Process>& System::Processes() {
   vector<int> pids = LinuxParser::Pids();
   std::map<int, long> prevJiff;
@@ -45,27 +45,19 @@ vector<Process>& System::Processes() {
       process.CpuUtilUpdate();
       processes_.emplace_back(process);
     }
-
-    // process.CpuUtilization();
-    // processes_.emplace_back(process);
   }
   std::sort(processes_.begin(), processes_.end());
   return processes_;
 }
 
-// TODO: Return the system's kernel identifier (string)
 std::string System::Kernel() { return LinuxParser::Kernel(); }
 
-// TODO: Return the system's memory utilization
 float System::MemoryUtilization() { return LinuxParser::MemoryUtilization(); }
 
-// TODO: Return the operating system name
 std::string System::OperatingSystem() { return LinuxParser::OperatingSystem(); }
 
-// TODO: Return the number of processes actively running on the system
 int System::RunningProcesses() { return LinuxParser::RunningProcesses(); }
 
-// TODO: Return the total number of processes on the system
 int System::TotalProcesses() { return processes_.size(); }
 
 // Number of seconds since the system started running

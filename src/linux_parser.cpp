@@ -3,7 +3,7 @@
 #include <dirent.h>
 #include <unistd.h>
 
-#include <iomanip>
+#include <cmath>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -146,10 +146,10 @@ long LinuxParser::ActiveJiffies(int pid) {
   return (utime + stime + child_time_a + child_time_b);
 }
 
-// TODO: Read and return CPU utilization
+// Not Used: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() { return {}; }
 
-// TODO: Read and return the total number of processes
+// Not Used: Read and return the total number of processes
 int LinuxParser::TotalProcesses() {
   string line;
   string key;
@@ -168,7 +168,7 @@ int LinuxParser::TotalProcesses() {
   return value;
 }
 
-// TODO: Read and return the number of running processes
+// Read and return the number of running processes
 int LinuxParser::RunningProcesses() {
   string line;
   string key;
@@ -190,11 +190,24 @@ int LinuxParser::RunningProcesses() {
 // Read and return the command associated with a process
 string LinuxParser::Command(int pid) {
   string line;
+  string command;
   std::ifstream stream(kProcDirectory + std::to_string(pid) + kCmdlineFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
+    command = line;
+    if (!command.empty()) {
+      std::istringstream linestream(line);
+      string temp;
+      linestream >> temp;
+      std::size_t found = temp.find_last_of("\\/");
+      if (found > 0 && found < (temp.size() - 2))
+        command = command.substr(found + 1);
+      std::string s = command;
+      s.erase(s.find_last_not_of(" \n\r\t") + 1);
+      if (s.empty()) command = line;
+    }
   }
-  return line;
+  return command;
 }
 
 // Read and return the memory used by a process
@@ -214,9 +227,8 @@ string LinuxParser::Ram(int pid) {
       }
     }
   }
-  std::stringstream ss;
-  ss << std::fixed << std::setprecision(1) << ram;
-  return ss.str();
+
+  return std::to_string((std::lround(ram)));
 }
 
 // Read and return the user ID associated with a process
