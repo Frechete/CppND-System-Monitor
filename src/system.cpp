@@ -29,12 +29,25 @@ Processor& System::Cpu() { return cpu_; }
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() {
   vector<int> pids = LinuxParser::Pids();
+  std::map<int, long> prevJiff;
+  for (auto proc : processes_) {
+    prevJiff.insert(std::make_pair(proc.Pid(), (proc.prevJiff())));
+  }
   processes_.clear();
   for (int icpid : pids) {
-    Process process(icpid, cpu_.DeltaJiffies());
+    std::map<int, long>::iterator i = prevJiff.find(icpid);
+    if (i == prevJiff.end()) {
+      Process process(icpid, cpu_.DeltaJiffies());
+      processes_.emplace_back(process);
+    } else {
+      Process process(icpid, cpu_.DeltaJiffies(), i->second);
+      processes_.emplace_back(process);
+    }
+
     // process.CpuUtilization();
-    processes_.emplace_back(process);
+    // processes_.emplace_back(process);
   }
+  std::sort(processes_.begin(), processes_.end());
   return processes_;
 }
 

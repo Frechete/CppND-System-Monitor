@@ -143,7 +143,7 @@ long LinuxParser::ActiveJiffies(int pid) {
     linestream >> child_time_a;
     linestream >> child_time_b;
   }
-  return (utime + stime + child_time_a + child_time_b) / sysconf(_SC_CLK_TCK);
+  return (utime + stime + child_time_a + child_time_b);
 }
 
 // TODO: Read and return CPU utilization
