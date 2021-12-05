@@ -1,5 +1,6 @@
 #include "system.h"
 
+#include <bits/stdc++.h>
 #include <unistd.h>
 
 #include <cstddef>
@@ -29,9 +30,11 @@ Processor& System::Cpu() { return cpu_; }
 vector<Process>& System::Processes() {
   vector<int> pids = LinuxParser::Pids();
   processes_.clear();
-  for (int icpid : pids)
-    processes_.emplace_back(Process(icpid, cpu_.DeltaJiffies()));
-  // std::sort(processes_.begin(), processes_.end());
+  for (int icpid : pids) {
+    Process process(icpid, cpu_.DeltaJiffies());
+    // process.CpuUtilization();
+    processes_.emplace_back(process);
+  }
   return processes_;
 }
 

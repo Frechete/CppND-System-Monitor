@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <unistd.h>
 
+#include <iomanip>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -129,16 +130,20 @@ long LinuxParser::ActiveJiffies(int pid) {
   string line;
   long utime = 0;
   long stime = 0;
+  long child_time_a = 0;
+  long child_time_b = 0;
   std::ifstream stream(kProcDirectory + std::to_string(pid) + kStatFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
     string dummy;
-    for (int i = 0; i < 14; i++) linestream >> dummy;
+    for (int i = 0; i < 12; i++) linestream >> dummy;
     linestream >> utime;
     linestream >> stime;
+    linestream >> child_time_a;
+    linestream >> child_time_b;
   }
-  return utime + stime;
+  return (utime + stime + child_time_a + child_time_b) / sysconf(_SC_CLK_TCK);
 }
 
 // TODO: Read and return CPU utilization
@@ -195,7 +200,7 @@ string LinuxParser::Command(int pid) {
 // Read and return the memory used by a process
 string LinuxParser::Ram(int pid) {
   string line;
-  long ram = 0;
+  float ram = 0;
   string key;
   std::ifstream stream(kProcDirectory + std::to_string(pid) + kStatusFilename);
   if (stream.is_open()) {
@@ -208,8 +213,9 @@ string LinuxParser::Ram(int pid) {
       }
     }
   }
-
-  return std::to_string(ram);
+  std::stringstream ss;
+  ss << std::fixed << std::setprecision(1) << ram;
+  return ss.str();
 }
 
 // Read and return the user ID associated with a process
@@ -244,7 +250,7 @@ string LinuxParser::User(int pid) {
       std::istringstream linestream(line);
       string dummy;
       string uid_pwd_file;
-      linestream >> uid_pwd_file >> dummy >> username;
+      linestream >> username >> dummy >> uid_pwd_file;
       if (uid_pwd_file == uid) {
         break;
       }
@@ -256,14 +262,15 @@ string LinuxParser::User(int pid) {
 // Read and return the uptime of a process
 long LinuxParser::UpTime(int pid) {
   string line;
-  long uptime = 0;
+  string uptime;
   std::ifstream stream(kProcDirectory + std::to_string(pid) + kStatFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
-    string dummy;
-    for (int i = 0; i < 22; i++) linestream >> dummy;
-    linestream >> uptime;
+    // string dummy;
+    for (int i = 0; i < 22; i++) linestream >> uptime;
+    // linestream >> uptime;
+    return stol(uptime) / sysconf(_SC_CLK_TCK);
   }
-  return uptime / sysconf(_SC_CLK_TCK);
+  return 0;
 }

@@ -21,7 +21,7 @@ float Process::CpuUtilization() {
   long pidJiffies = LinuxParser::ActiveJiffies(pid_);
   long deltaJiffies = pidJiffies - prevJiffies_;
   prevJiffies_ = pidJiffies;
-  cpuUt = deltaJiffies / totJiffies_;
+  cpuUt = (1.0 * deltaJiffies) / (totJiffies_ * 1.0);
   return cpuUt;
 }
 
@@ -39,4 +39,4 @@ long int Process::UpTime() { return LinuxParser::UpTime(pid_); }
 
 // Overload the "less than" comparison operator for Process objects
 
-bool Process::operator<(Process const& a) const { return cpuUt < a.cpuUt; }
+// bool Process::operator<(Process const& a) const { return cpuUt < a.cpuUt; }
