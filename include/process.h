@@ -17,7 +17,8 @@ class Process {
   std::string Ram();       // TODO: See src/process.cpp
   long int UpTime();       // TODO: See src/process.cpp
   long prevJiff() const { return prevJiffies_; }
-  bool operator<(Process const& a) const { return cpuUt < a.cpuUt; }
+  bool operator<(Process const& a) const { return a.cpuUt < cpuUt; }
+  void CpuUtilUpdate();
 
   // TODO: Declare any necessary private members
  private:

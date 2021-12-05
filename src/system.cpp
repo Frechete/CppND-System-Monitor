@@ -38,9 +38,11 @@ vector<Process>& System::Processes() {
     std::map<int, long>::iterator i = prevJiff.find(icpid);
     if (i == prevJiff.end()) {
       Process process(icpid, cpu_.DeltaJiffies());
+      process.CpuUtilUpdate();
       processes_.emplace_back(process);
     } else {
       Process process(icpid, cpu_.DeltaJiffies(), i->second);
+      process.CpuUtilUpdate();
       processes_.emplace_back(process);
     }
 

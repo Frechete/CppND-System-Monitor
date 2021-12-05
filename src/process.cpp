@@ -17,12 +17,14 @@ using std::vector;
 int Process::Pid() { return pid_; }
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization() {
+float Process::CpuUtilization() { return cpuUt; }
+
+// TODO: Return this process's CPU utilization
+void Process::CpuUtilUpdate() {
   long pidJiffies = LinuxParser::ActiveJiffies(pid_);
   long deltaJiffies = pidJiffies - prevJiffies_;
   prevJiffies_ = pidJiffies;
   cpuUt = (1.0 * deltaJiffies) / (totJiffies_ * 1.0);
-  return cpuUt;
 }
 
 // TODO: Return the command that generated this process
