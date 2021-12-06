@@ -10,16 +10,15 @@ class Process {
  public:
   Process(int pid = 0, long totJiffies = 0, long prevJiffies = 0)
       : pid_(pid), totJiffies_(totJiffies), prevJiffies_(prevJiffies) {}
-  int Pid();               
-  std::string User();      
-  std::string Command();   
-  float CpuUtilization();  
-  std::string Ram();       
-  long int UpTime();       
+  int Pid();
+  std::string User();
+  std::string Command();
+  float CpuUtilization();
+  std::string Ram();
+  long int UpTime();
   long prevJiff() const { return prevJiffies_; }
   bool operator<(Process const& a) const { return a.cpuUt < cpuUt; }
   void CpuUtilUpdate();
-
 
  private:
   int pid_;
